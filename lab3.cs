@@ -110,9 +110,9 @@ class Program
             if (i == 0)
                 img.DrawString(entryCode[i].ToString(), font, Brushes.Black, new PointF(1, height + offset));
             else if (i >= 1 && i <= 6)
-                img.DrawString(entryCode[i].ToString(), font, Brushes.Black, new PointF(offset +widthMul*3 + i * 6 * widthMul, height + offset));
+                img.DrawString(entryCode[i].ToString(), font, Brushes.Black, new PointF(offset +widthMul*4 + i * 6 * widthMul, height + offset));
             else
-            img.DrawString(entryCode[i].ToString(), font, Brushes.Black, new PointF(offset + i*8*widthMul, height + offset));
+            img.DrawString(entryCode[i].ToString(), font, Brushes.Black, new PointF(offset + widthMul*14 + i * 6 * widthMul, height + offset));
         }
          b.Save("ean13.bmp", System.Drawing.Imaging.ImageFormat.Bmp);
          Process.Start(new ProcessStartInfo("ean13.bmp") { UseShellExecute = true });

@@ -18,7 +18,7 @@ class Program
                sum+=n;
             }
          }
-        int controlN = sum % 10;
+        int controlN = 10-(sum % 10);
         string controlS = controlN.ToString();
         string fullCode= code + controlS;
         return fullCode;

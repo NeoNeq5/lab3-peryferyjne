@@ -6,4 +6,11 @@ class Program
     {
 
     }
+
+
+    static void WyswietlanieKodu(String kod){
+        
+    }
+
+
 }

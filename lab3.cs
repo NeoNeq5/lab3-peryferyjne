@@ -7,9 +7,8 @@ class Program
     static void Main()
     {
         string entrycode = "123627349283";
-
-
-        WyswietlanieKodu(entrycode);
+        CodeTheCode(entrycode);
+        
     }
 
         static readonly string[] A = {
@@ -55,31 +54,43 @@ class Program
 
     static void CodeTheCode(string entryCode)
     {
-        if (kod.Length != 12) throw new Exception("zła ilosc cyfr!" + kod.Length);
+        if (entryCode.Length != 12) throw new Exception("zła ilosc cyfr!" + entryCode.Length);
         string borderCode = "101";
         string separateCode = "01010";
 
-        String fullcode = entryCode + CountControlBit(entryCode);
+        String fullcode = CountControlBit(entryCode);
 
         string exitCode = borderCode;
         string parity = Parity[fullcode[0] -'0'];
 
-        for(int i = 0; i < 7; i++)
+        for(int i = 1; i < 7; i++)
         {
-            int 
+            int num = fullcode[i] - '0';
+            exitCode += (parity[i-1] == 'A') ? A[num] : B[num];
         }
 
+        exitCode += separateCode;
+
+        for(int i = 7; i < 13; i++)
+        {
+            int num = fullcode[i] - '0';
+            exitCode += C[num];
+        }
+        exitCode += borderCode;
+        WyswietlanieKodu(exitCode, entryCode);
     }
 
 
-    static void WyswietlanieKodu(String kod){
-        int widthMul = 5;
+    static void WyswietlanieKodu(String kod, String entryCode){
+        int widthMul = 2;
         int width = kod.Length * widthMul;
         int height = 100;
         int offset = 5;
         
+        Font font = new Font("Arial", 16);
 
-        Bitmap img = new Bitmap(width + 2*offset, height + 2*offset);
+        Bitmap b = new Bitmap(width + 2*offset, height + 2*offset);
+        Graphics img = Graphics.FromImage(b);
 
         for(int x = 0; x < width + 2*offset; x++)
         {
@@ -94,8 +105,10 @@ class Program
                 if( kod[x / widthMul] == '1')
                 {
                     img.SetPixel(x + offset, y + offset, Color.Black);
-                    // Console.WriteLine(kod[x /100]);
+                    
                 }
+                    img.DrawString(entryCode[x / (7 * widthMul)].ToString(), font, Brushes.Black, new PointF(x / (7 * widthMul) *14 , height - 20));
+                
             }
         }
          img.Save("ean13.bmp");

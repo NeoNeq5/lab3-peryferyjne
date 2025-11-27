@@ -77,7 +77,7 @@ class Program
             exitCode += C[num];
         }
         exitCode += borderCode;
-        WyswietlanieKodu(exitCode, entryCode);
+        WyswietlanieKodu(exitCode, fullcode);
     }
 
 
@@ -85,33 +85,36 @@ class Program
         int widthMul = 2;
         int width = kod.Length * widthMul;
         int height = 100;
-        int offset = 5;
+        int offset = 10;
         
         Font font = new Font("Arial", 16);
 
-        Bitmap b = new Bitmap(width + 2*offset, height + 2*offset);
+        Bitmap b = new Bitmap(width + 4*offset, height + 3*offset);
         Graphics img = Graphics.FromImage(b);
 
-        for(int x = 0; x < width + 2*offset; x++)
-        {
-            for(int y = 0; y < height + 2*offset; y++){
-                img.SetPixel(x, y, Color.White);
-            }
-        }
+        img.Clear(Color.White);
 
         for(int x = 0; x < width; x++)
         {
-            for(int y = 0; y < height; y++){
-                if( kod[x / widthMul] == '1')
-                {
-                    img.SetPixel(x + offset, y + offset, Color.Black);
-                    
+                if (kod[x / widthMul] == '1')
+                {   
+                    if(x/widthMul < 3 || (x/widthMul >= 45 && x/widthMul < 50) || x/widthMul >= 92)
+                        img.FillRectangle(Brushes.Black, 2*offset + x , offset, widthMul, height + 10);
+                    else
+                    img.FillRectangle(Brushes.Black, 2*offset + x , offset, widthMul, height);
                 }
-                    img.DrawString(entryCode[x / (7 * widthMul)].ToString(), font, Brushes.Black, new PointF(x / (7 * widthMul) *14 , height - 20));
-                
-            }
+            
         }
-         img.Save("ean13.bmp");
+        for (int i = 0; i < entryCode.Length; i++)
+        {   
+            if (i == 0)
+                img.DrawString(entryCode[i].ToString(), font, Brushes.Black, new PointF(1, height + offset));
+            else if (i >= 1 && i <= 6)
+                img.DrawString(entryCode[i].ToString(), font, Brushes.Black, new PointF(offset +widthMul*3 + i * 6 * widthMul, height + offset));
+            else
+            img.DrawString(entryCode[i].ToString(), font, Brushes.Black, new PointF(offset + i*8*widthMul, height + offset));
+        }
+         b.Save("ean13.bmp", System.Drawing.Imaging.ImageFormat.Bmp);
          Process.Start(new ProcessStartInfo("ean13.bmp") { UseShellExecute = true });
     }
 

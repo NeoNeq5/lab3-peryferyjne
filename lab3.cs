@@ -4,10 +4,37 @@ using System.Diagnostics;
 
 class Program
 {
-    static void Main()
+        static void Main()
     {
-        string entrycode = "123627349283";
-        CodeTheCode(entrycode);
+        Console.Write("Podaj kod: ");
+        string entrycode =Console.ReadLine();
+        //string entrycode = "123627389281";
+
+        bool isNumber = true;
+        if(entrycode.Length == 12)
+        {
+            foreach(char c in entrycode)
+            {
+                if(c < '0' || c > '9')
+                {
+                    isNumber = false;
+                }
+            }
+            if (isNumber)
+            {
+                CodeTheCode(entrycode);
+            }
+            else
+            {
+                Console.Write("nalezy wprowadzić tylko cyfry");
+            }
+            
+        }
+        else
+        {
+            Console.Write("niepoprawna długość ciągu");
+        }
+        
         
     }
 
